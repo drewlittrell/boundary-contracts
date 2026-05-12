@@ -1,5 +1,7 @@
 # Boundary Contracts
 
+[![CI](https://github.com/drewlittrell/boundary-contracts/actions/workflows/ci.yml/badge.svg)](https://github.com/drewlittrell/boundary-contracts/actions/workflows/ci.yml)
+
 Make architecture and change-scope boundaries executable for AI-assisted codebases.
 
 AI can change code faster than reviewers can reconstruct intent. Boundary Contracts lets teams declare which layers, owners, paths, and change scopes are allowed to interact, then checks whether a repo or diff respected those boundaries.
@@ -29,6 +31,13 @@ Did this code change stay inside the architecture and change-scope boundaries it
 - Fails protected path edits unless there is a valid exception.
 - Requires exceptions to have an owner, reason, and expiry.
 - Writes terminal, Markdown, and JSON reports.
+
+## Design Principles
+
+- Architecture rules should be executable, not tribal knowledge.
+- Change scopes make patch intent reviewable.
+- Exceptions should be explicit, owned, reasoned, and temporary.
+- Local tools should be deterministic before they become platforms.
 
 ## Workflow
 
