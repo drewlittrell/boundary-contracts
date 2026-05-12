@@ -1,0 +1,48 @@
+{
+  "name": "boundary-contracts",
+  "version": "0.1.0",
+  "description": "Make architecture and change-scope boundaries executable for AI-assisted codebases.",
+  "type": "module",
+  "bin": {
+    "boundary-contracts": "./dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "cli": "tsx src/cli.ts",
+    "example:scan": "BOUNDARY_CONTRACTS_DETERMINISTIC=1 tsx src/cli.ts scan examples/nextjs-auth",
+    "scenario:healthy": "BOUNDARY_CONTRACTS_DETERMINISTIC=1 tsx src/cli.ts report examples/nextjs-auth/scenarios/healthy --out examples/nextjs-auth/scenarios/healthy/reports/boundary-report.md --json-out examples/nextjs-auth/scenarios/healthy/reports/boundary-report.json",
+    "scenario:cross-boundary": "BOUNDARY_CONTRACTS_DETERMINISTIC=1 tsx src/cli.ts report examples/nextjs-auth/scenarios/drift-cross-boundary-import --out examples/nextjs-auth/scenarios/drift-cross-boundary-import/reports/boundary-report.md --json-out examples/nextjs-auth/scenarios/drift-cross-boundary-import/reports/boundary-report.json || test $? -eq 1",
+    "scenario:out-of-scope": "BOUNDARY_CONTRACTS_DETERMINISTIC=1 tsx src/cli.ts diff examples/nextjs-auth/scenarios/drift-out-of-scope-change --scope auth-login-fix --changed-files examples/nextjs-auth/scenarios/drift-out-of-scope-change/changed-files.txt --out examples/nextjs-auth/scenarios/drift-out-of-scope-change/reports/boundary-report.md --json-out examples/nextjs-auth/scenarios/drift-out-of-scope-change/reports/boundary-report.json || test $? -eq 1",
+    "scenario:protected-path": "BOUNDARY_CONTRACTS_DETERMINISTIC=1 tsx src/cli.ts diff examples/nextjs-auth/scenarios/drift-protected-path-change --scope auth-login-fix --changed-files examples/nextjs-auth/scenarios/drift-protected-path-change/changed-files.txt --out examples/nextjs-auth/scenarios/drift-protected-path-change/reports/boundary-report.md --json-out examples/nextjs-auth/scenarios/drift-protected-path-change/reports/boundary-report.json || test $? -eq 1",
+    "scenario:all": "npm run scenario:healthy && npm run scenario:cross-boundary && npm run scenario:out-of-scope && npm run scenario:protected-path",
+    "example:all": "npm run scenario:all"
+  },
+  "keywords": [
+    "architecture",
+    "boundaries",
+    "typescript",
+    "cli",
+    "ai-assisted-development"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.19.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "commander": "^12.1.0",
+    "minimatch": "^10.0.1",
+    "yaml": "^2.8.0",
+    "zod": "^3.25.67"
+  }
+}

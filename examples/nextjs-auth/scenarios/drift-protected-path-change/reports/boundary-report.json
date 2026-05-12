@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "status": "fail",
+  "mode": "diff",
+  "scope": "auth-login-fix",
+  "summary": {
+    "filesScanned": 5,
+    "importsScanned": 2,
+    "violations": 1,
+    "warnings": 0
+  },
+  "violations": [
+    {
+      "id": "protected-path:generated-contracts:generated/contracts.ts",
+      "kind": "protected_path",
+      "status": "fail",
+      "message": "generated/contracts.ts changed, but it is protected by generated-contracts.",
+      "files": [
+        "generated/contracts.ts"
+      ],
+      "ruleId": "generated-contracts",
+      "suggestion": "Generated files must be updated through their generator."
+    }
+  ]
+}

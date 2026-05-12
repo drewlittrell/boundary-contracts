@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "status": "fail",
+  "mode": "diff",
+  "scope": "auth-login-fix",
+  "summary": {
+    "filesScanned": 5,
+    "importsScanned": 2,
+    "violations": 1,
+    "warnings": 0
+  },
+  "violations": [
+    {
+      "id": "out-of-scope-path:auth-login-fix:services/billingService.ts",
+      "kind": "out_of_scope_change",
+      "status": "fail",
+      "message": "services/billingService.ts was changed, but auth-login-fix does not allow that path.",
+      "files": [
+        "services/billingService.ts"
+      ],
+      "ruleId": "auth-login-fix",
+      "suggestion": "Move this change to a matching scope, or update the declared scope intentionally."
+    }
+  ]
+}

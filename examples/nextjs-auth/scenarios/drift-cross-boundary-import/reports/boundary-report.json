@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-01-01T00:00:00.000Z",
+  "status": "fail",
+  "mode": "scan",
+  "summary": {
+    "filesScanned": 5,
+    "importsScanned": 3,
+    "violations": 2,
+    "warnings": 0
+  },
+  "violations": [
+    {
+      "id": "layer-import:import-0002",
+      "kind": "layer_import",
+      "status": "fail",
+      "message": "services/authService.ts imports app/api/login/route.ts, but services may not import app.",
+      "files": [
+        "services/authService.ts",
+        "app/api/login/route.ts"
+      ],
+      "ruleId": "services-may-import",
+      "suggestion": "Move the dependency behind an allowed services -> domain boundary, or intentionally update the layer contract."
+    },
+    {
+      "id": "forbidden-import:services-must-not-import-app:import-0002",
+      "kind": "forbidden_import",
+      "status": "fail",
+      "message": "services/authService.ts imports app/api/login/route.ts.",
+      "files": [
+        "services/authService.ts",
+        "app/api/login/route.ts"
+      ],
+      "ruleId": "services-must-not-import-app",
+      "suggestion": "Service code must not depend on app route handlers."
+    }
+  ]
+}
