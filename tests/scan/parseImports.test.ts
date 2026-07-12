@@ -48,4 +48,10 @@ describe("parseImports", () => {
     expect(resolveRelativeImport("services/authService.ts", "../domain/session", knownFiles)).toBe("domain/session/index.ts");
     expect(resolveRelativeImport("services/authService.ts", "react", knownFiles)).toBeUndefined();
   });
+
+  it("resolves explicit-extension imports to the exact known file", () => {
+    const knownFiles = new Set(["domain/auth.js"]);
+
+    expect(resolveRelativeImport("services/authService.ts", "../domain/auth.js", knownFiles)).toBe("domain/auth.js");
+  });
 });

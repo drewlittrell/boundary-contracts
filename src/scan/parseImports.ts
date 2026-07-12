@@ -54,10 +54,11 @@ export function resolveRelativeImport(
     return undefined;
   }
   const fromDirectory = path.posix.dirname(normalizeRelativePath(fromFile));
-  const withoutExtension = normalizeRelativePath(path.posix.normalize(path.posix.join(fromDirectory, importPath)));
+  const normalizedTarget = normalizeRelativePath(path.posix.normalize(path.posix.join(fromDirectory, importPath)));
   const candidates = [
-    ...extensions.map((extension) => `${withoutExtension}${extension}`),
-    ...extensions.map((extension) => `${withoutExtension}/index${extension}`)
+    normalizedTarget,
+    ...extensions.map((extension) => `${normalizedTarget}${extension}`),
+    ...extensions.map((extension) => `${normalizedTarget}/index${extension}`)
   ];
   return candidates.find((candidate) => knownFiles.has(candidate));
 }
