@@ -47,10 +47,10 @@ Options:
 ## `diff`
 
 ```sh
-npm run cli -- diff [root] --scope <id> [--since <ref>] [--changed-files <path>] [--out <path>] [--json-out <path>] [--strict]
+npm run cli -- diff [root] --scope <id> (--since <ref> | --changed-files <path>) [--out <path>] [--json-out <path>] [--strict]
 ```
 
-Inspects changed files against the required declared change scope and the configured boundaries. Supply the changes using a Git reference with `--since` or a newline-delimited fixture with `--changed-files`. It prints a terminal summary. Markdown and additional JSON report files are optional.
+Inspects changed files against the required declared change scope and the configured boundaries. Supply exactly one change source: either a Git reference with `--since` or a newline-delimited fixture with `--changed-files`. Supplying neither source or both sources exits non-zero with a validation error. It prints a terminal summary. Markdown and additional JSON report files are optional.
 
 Arguments:
 
@@ -59,8 +59,8 @@ Arguments:
 Options:
 
 - `--scope <id>`: declared change scope; required.
-- `--since <ref>`: Git reference to diff against.
-- `--changed-files <path>`: path to a newline-delimited changed-files fixture.
+- `--since <ref>`: Git reference to diff against; mutually exclusive with `--changed-files`.
+- `--changed-files <path>`: path to a newline-delimited changed-files fixture; mutually exclusive with `--since`.
 - `--out <path>`: write a Markdown report to the given path.
 - `--json-out <path>`: write a JSON report to the given path.
 - `--strict`: exit non-zero on warnings as well as failures.

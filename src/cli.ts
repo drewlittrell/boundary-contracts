@@ -7,6 +7,7 @@ import { ensureDir, pathExists, writeJsonFile } from "./utils/fs";
 import { runBoundaryCheck, writeReportOutputs } from "./index";
 import { terminalReport } from "./reports/terminalReport";
 import { markdownReport } from "./reports/markdownReport";
+import { validateDiffSource } from "./git/diffScope";
 
 const program = new Command();
 
@@ -64,6 +65,7 @@ program
         strict?: boolean;
       }
     ) => {
+      validateDiffSource({ since: options.since, changedFiles: options.changedFiles });
       const { report } = await runBoundaryCheck({
         root,
         mode: "diff",
