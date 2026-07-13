@@ -41,6 +41,8 @@ Did this code change stay inside the architecture and change-scope boundaries it
 
 ## Workflow
 
+See the [CLI reference](docs/cli-reference.md) for every command, argument, output option, and exit behavior.
+
 ```sh
 npm run cli -- init
 npm run cli -- scan .
