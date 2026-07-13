@@ -2,13 +2,9 @@ import path from "node:path";
 import { promises as fs } from "node:fs";
 import { loadBoundaryContracts, loadBoundaryExceptions } from "./contracts/loadBoundaryContracts";
 import { scanRepo } from "./scan/scanRepo";
-import type { BoundaryReport, BoundaryViolation } from "./reports/types";
+import type { BoundaryReport } from "./reports/types";
 import { buildBoundaryReport } from "./reports/jsonReport";
-import { checkLayerRules, checkUnclassifiedFiles } from "./contracts/checkLayerRules";
-import { checkForbiddenImports } from "./contracts/checkForbiddenImports";
-import { checkProtectedPaths } from "./contracts/checkProtectedPaths";
-import { checkChangeScopes } from "./contracts/checkChangeScopes";
-import { checkExceptions } from "./contracts/checkExceptions";
+import { evaluateBoundaries } from "./contracts/evaluateBoundaries";
 import { writeJsonFile } from "./utils/fs";
 import { markdownReport } from "./reports/markdownReport";
 import { resolveChangedFiles } from "./git/diffScope";
@@ -34,20 +30,14 @@ export async function runBoundaryCheck(options: RunBoundaryCheckOptions): Promis
     ? await resolveChangedFiles({ root, since: options.since, changedFiles: options.changedFiles })
     : [];
 
-  const rawViolations: BoundaryViolation[] = [
-    ...checkLayerRules(scan, contracts),
-    ...checkForbiddenImports(scan, contracts),
-    ...checkUnclassifiedFiles(scan)
-  ];
-
-  if (options.mode === "diff") {
-    rawViolations.push(
-      ...checkChangeScopes(changedFiles, options.scope, scan, contracts),
-      ...checkProtectedPaths(changedFiles, contracts)
-    );
-  }
-
-  const { violations } = checkExceptions(rawViolations, exceptionsFile.exceptions);
+  const violations = evaluateBoundaries({
+    scan,
+    contracts,
+    exceptions: exceptionsFile.exceptions,
+    mode: options.mode,
+    scope: options.scope,
+    changedFiles
+  });
   const report = buildBoundaryReport({
     scan,
     mode: options.mode,
